@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'AdminLTE 3',
+    'title' => 'Arons',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -319,6 +319,12 @@ return [
             'label_color' => 'success',
         ],
         ['header' => 'account_settings'],
+
+        [
+            'text' => 'Import Employees',
+            'url' => 'employees/index',
+            'icon' => 'fas fa-fw fa-user',
+        ],
         [
             'text' => 'profile',
             'url'  => 'admin/settings',

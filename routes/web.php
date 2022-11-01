@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\EmployeeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+// Import Employees
+Route::get('/employees/index',[EmployeeController::class, 'index'])->name('index.employees');
+Route::post('/employees/import', [EmployeeController::class, 'import'])->name('import.employees');
