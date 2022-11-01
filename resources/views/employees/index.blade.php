@@ -45,6 +45,7 @@
                                     <th>Shift</th>
                                     <th>Date</th>
                                     <th>Paid At</th>
+                                    <th></th>   
                                 </tr>
                             </thead>
                             <tbody>
@@ -56,14 +57,20 @@
                                         <td>{{ $employee->hours }}</td>
                                         <td>{{ $employee->rate_per_hour }}</td>
                                         <td>{{ $employee->taxable ? 'Yes' : 'No' }}</td>
-                                        <td>{{ $employee->status->status }}</td>
-                                        <td>{{ $employee->shift_type->shift }}</td>
+                                        <td>{{ $employee->status }}</td>
+                                        <td>{{ $employee->shift_type }}</td>
                                         <td>{{ $employee->date }}</td>
                                         <td>{{ $employee->paid_at }}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary">VIew</button>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
+                        <div style="float: right">
+                            {{ $employees->links() }}
+                        </div>
                     </div> 
                 </div>
             </div>
