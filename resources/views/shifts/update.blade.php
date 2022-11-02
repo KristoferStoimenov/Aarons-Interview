@@ -78,7 +78,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="date">Date</label>
-                                        <input type="date" name="date" id="date">
+                                        <input type="date" name="date" id="date" value="{{ $shift->date }}">
                                         @error('date')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
@@ -86,7 +86,7 @@
 
                                     <div class="form-group">
                                         <label for="paid_at">Paid At</label>
-                                        <input type="date" name="paid_at" id="paid_at">
+                                        <input type="datetime-local" name="paid_at" id="paid_at" value="{{ $shift->paid_at }}">
                                         @error('paid_at')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror

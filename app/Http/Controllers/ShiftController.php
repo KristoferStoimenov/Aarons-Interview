@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreEmployeeRequest; 
 use App\Models\Employee;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 use DB;
 
 
@@ -34,28 +34,15 @@ class ShiftController extends Controller
         return view('shifts.create', compact('shiftTypes','statuses'));
     }
 
-    public function store(Request $request){
+    /**
+        * @param  \App\Http\Requests\StoreEmployeeRequest  $request
+        * @return Illuminate\Http\Response
+    */
+    public function store(StoreEmployeeRequest $request){
         
-        $employee = new Employee();
-        $statuses = $employee->getStatuses();
-        $shiftTypes = $employee->getShiftTypes();
-
-        $validator = Validator::make($request->all(), [
-            'employee' => 'required',
-            'employer' => 'required',
-            'hours' => 'required',
-            'rate_per_hour' => 'required',
-            'status' => ['required', Rule::in($statuses)],
-            'shift_type' => ['required', Rule::in($shiftTypes)],
-            'date' => 'required|date',
-            'paid_at' => 'required|date'
-        ]);
+        $validated = $request->validated();
         
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-
-        $employee->create([
+        Employee::create([
             'employee' => $request->employee,
             'employer' => $request->employer,
             'hours' => $request->hours,
@@ -80,28 +67,11 @@ class ShiftController extends Controller
         return view('shifts.update',compact('shift','statuses','shiftTypes'));
     }
 
-    public function update(Request $request, $id){
+    public function update(StoreEmployeeRequest $request, $id){
 
-        $shift = Employee::findOrFail($id);
-        $statuses = $shift->getStatuses();
-        $shiftTypes = $shift->getShiftTypes();
-
-        $validator = Validator::make($request->all(), [
-            'employee' => 'required',
-            'employer' => 'required',
-            'hours' => 'required',
-            'rate_per_hour' => 'required',
-            'status' => ['required', Rule::in($statuses)],
-            'shift_type' => ['required', Rule::in($shiftTypes)],
-            'date' => 'required|date',
-            'paid_at' => 'required|date'
-        ]);
+        $validated = $request->validated();
         
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-        
-        $shift->update([
+        Employee::where('id', $id)->update([
             'employee' => $request->employee,
             'employer' => $request->employer,
             'hours' => $request->hours,
