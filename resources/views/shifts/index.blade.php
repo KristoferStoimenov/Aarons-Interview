@@ -7,15 +7,26 @@
 @stop
 
 @section('content')
-        <form action="{{ route('import.shifts') }}" method="POST" enctype="multipart/form-data" class="mb-3" id="import_form">
-            @csrf
-            <label for="import_shifts">Import Shifts (CSV file)</label><br>
-            <input type="file" name="shifts" id="import_shifts">
-            @if($errors->has('shifts'))
-                <br>
-                <span style="color: red">{{ $errors->first('shifts') }}</span>    
-            @endif
-        </form>
+        <div class="row">
+            <div class="col">
+                <form action="{{ route('import.shifts') }}" method="POST" enctype="multipart/form-data" class="mb-3" id="import_form">
+                    @csrf
+                    <label for="import_shifts">Import Shifts (CSV file)</label><br>
+                    <input type="file" name="shifts" id="import_shifts">
+                    @if($errors->has('shifts'))
+                        <br>
+                        <span style="color: red">{{ $errors->first('shifts') }}</span>    
+                    @endif
+                </form>
+            </div>
+            <div class="col">
+                <form action="{{ route('index.shifts') }}" method="GET" style="float: right;">
+                    <label for="total_pay_filter">Minimum Total Pay</label><br>
+                    <input type="number" name="total_pay_filter" value="{{ isset($_GET['total_pay_filter']) ? $_GET['total_pay_filter'] : null }}">
+                    <button type="submit" class="btn btn-primary">Filter</button>
+                </form>
+            </div>
+        </div>
         <div class="row">
             <div class="col-12">
                 <div class="card">

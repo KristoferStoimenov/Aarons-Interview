@@ -9,9 +9,15 @@ use DB;
 class ShiftController extends Controller
 {
 
-    public function index(){
-        
-        $shifts = Employee::select('*', DB::raw('rate_per_hour * hours as total_pay'))->simplePaginate(15);
+    public function index(Request $request){
+       
+        $shifts = Employee::select('*', DB::raw('rate_per_hour * hours as total_pay'));
+
+        if($request->has('total_pay_filter') && $request->total_pay_filter != null){
+            $shifts = $shifts->having('total_pay', '>=', $request->total_pay_filter);
+        }
+
+        $shifts = $shifts->simplePaginate(15);
         
         return view('shifts.index', compact('shifts'));
     }
