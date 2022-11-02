@@ -18,8 +18,8 @@ return new class extends Migration
             
             $table->string('employee');
             $table->string('employer');
-            $table->string('hours');
-            $table->string('rate_per_hour');
+            $table->float('hours');
+            $table->float('rate_per_hour');
             $table->boolean('taxable');
             $table->date('date');
             $table->dateTime('paid_at')->nullable();

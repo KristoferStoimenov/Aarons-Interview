@@ -321,9 +321,14 @@ return [
         ['header' => 'account_settings'],
 
         [
-            'text' => 'Import Employees',
+            'text' => 'Employees',
             'url' => 'employees/index',
             'icon' => 'fas fa-fw fa-user',
+        ],
+        [
+            'text' => 'Shifts',
+            'url' => 'shifts/index',
+            'icon' => 'fas fa-fw fa-file',
         ],
         [
             'text' => 'profile',

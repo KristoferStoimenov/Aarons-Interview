@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\ShiftController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +21,11 @@ Route::get('/', function () {
 });
 
 
-// Import Employees
+//Employees
 Route::get('/employees/index',[EmployeeController::class, 'index'])->name('index.employees');
-Route::post('/employees/import', [EmployeeController::class, 'import'])->name('import.employees');
+Route::get('/employees/details/{employee_name}',[EmployeeController::class, 'detailed_view'])->name('detail.employee');
+
+
+//Shifts
+Route::get('/shifts/index',[ShiftController::class, 'index'])->name('index.shifts');
+Route::post('/shifts/import', [ShiftController::class, 'import'])->name('import.shifts');
