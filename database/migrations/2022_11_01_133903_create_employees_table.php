@@ -25,6 +25,8 @@ return new class extends Migration
             $table->dateTime('paid_at')->nullable();
             $table->string('status');
             $table->string('shift_type');
+
+            $table->timestamps();
            
         });
     }

@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Employee;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use DB;
+
 
 class ShiftController extends Controller
 {
@@ -20,6 +23,103 @@ class ShiftController extends Controller
         $shifts = $shifts->simplePaginate(15);
         
         return view('shifts.index', compact('shifts'));
+    }
+
+    public function create(){
+
+        $employee = new Employee();
+        $statuses = $employee->getStatuses();
+        $shiftTypes = $employee->getShiftTypes();
+
+        return view('shifts.create', compact('shiftTypes','statuses'));
+    }
+
+    public function store(Request $request){
+        
+        $employee = new Employee();
+        $statuses = $employee->getStatuses();
+        $shiftTypes = $employee->getShiftTypes();
+
+        $validator = Validator::make($request->all(), [
+            'employee' => 'required',
+            'employer' => 'required',
+            'hours' => 'required',
+            'rate_per_hour' => 'required',
+            'status' => ['required', Rule::in($statuses)],
+            'shift_type' => ['required', Rule::in($shiftTypes)],
+            'date' => 'required|date',
+            'paid_at' => 'required|date'
+        ]);
+        
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $employee->create([
+            'employee' => $request->employee,
+            'employer' => $request->employer,
+            'hours' => $request->hours,
+            'rate_per_hour' => $request->rate_per_hour,
+            'status' => $request->status,
+            'taxable' => $request->has('taxable') ? true : false,
+            'shift_type' => $request->shift_type,
+            'date' => $request->date,
+            'paid_at' => $request->paid_at,
+        ]);
+        
+        return redirect()->route('index.shifts');
+        
+    }
+
+    public function edit($id){
+
+        $shift = Employee::findOrFail($id);
+        $statuses = $shift->getStatuses();
+        $shiftTypes = $shift->getShiftTypes();
+
+        return view('shifts.update',compact('shift','statuses','shiftTypes'));
+    }
+
+    public function update(Request $request, $id){
+
+        $shift = Employee::findOrFail($id);
+        $statuses = $shift->getStatuses();
+        $shiftTypes = $shift->getShiftTypes();
+
+        $validator = Validator::make($request->all(), [
+            'employee' => 'required',
+            'employer' => 'required',
+            'hours' => 'required',
+            'rate_per_hour' => 'required',
+            'status' => ['required', Rule::in($statuses)],
+            'shift_type' => ['required', Rule::in($shiftTypes)],
+            'date' => 'required|date',
+            'paid_at' => 'required|date'
+        ]);
+        
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        
+        $shift->update([
+            'employee' => $request->employee,
+            'employer' => $request->employer,
+            'hours' => $request->hours,
+            'rate_per_hour' => $request->rate_per_hour,
+            'status' => $request->status,
+            'taxable' => $request->has('taxable') ? true : false,
+            'shift_type' => $request->shift_type,
+            'date' => $request->date,
+            'paid_at' => $request->paid_at,
+        ]);
+        
+        return redirect()->route('index.shifts');
+    }
+
+    public function delete($id){
+        $shift = Employee::findOrFail($id);
+        $shift->delete();
+        return redirect()->route('index.shifts');
     }
 
     public function import(Request $request){

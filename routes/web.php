@@ -28,4 +28,9 @@ Route::get('/employees/details/{employee_name}',[EmployeeController::class, 'det
 
 //Shifts
 Route::get('/shifts/index',[ShiftController::class, 'index'])->name('index.shifts');
+Route::get('/create/shift', [ShiftController::class, 'create'])->name('create.shift');
+Route::post('/store/shift/{id?}', [ShiftController::class, 'store'])->name('store.shift');
+Route::get('/edit/shift/{id}', [ShiftController::class, 'edit'])->name('edit.shift');
+Route::put('/update/shift/{id}', [ShiftController::class, 'update'])->name('update.shift');
+Route::delete('/delete/shift/{id}', [ShiftController::class, 'delete'])->name('delete.shift');
 Route::post('/shifts/import', [ShiftController::class, 'import'])->name('import.shifts');

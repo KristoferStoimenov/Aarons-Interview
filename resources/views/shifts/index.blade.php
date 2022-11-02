@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Dashboard')
+@section('title', 'Shifts')
 
 @section('content_header')
     <h1>Shifts</h1>
@@ -34,12 +34,11 @@
                         <h3 class="card-title">Shifts</h3>
                         <div class="card-tools">
                             <div class="input-group input-group-sm" style="width: 150px;">
-                                <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-                                    <div class="input-group-append">
-                                        <button type="submit" class="btn btn-default">
-                                            <i class="fas fa-search"></i>
-                                        </button>
-                                    </div>
+                                <div class="input-group-append">
+                                    <a href="{{ route('create.shift') }}" type="submit" class="btn btn-primary">
+                                        Create Shift
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -57,6 +56,8 @@
                                     <th>Shift</th>
                                     <th>Date</th>
                                     <th>Paid At</th>
+                                    <th></th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -72,6 +73,18 @@
                                         <td>{{ $shift->shift_type }}</td>
                                         <td>{{ $shift->date }}</td>
                                         <td>{{ $shift->paid_at }}</td>
+                                        <td>
+                                            <a href="{{ route('edit.shift', $shift->id) }}" class="btn btn-primary">Edit</a>
+                                        </td>
+                                        <td>
+                                        <form id="deleteShift{{ $shift->id }}" action={{ route('delete.shift', $shift->id) }} method='POST'>
+                                            @csrf
+                                            @method('DELETE')
+                                            <a href="#" onclick="document.getElementById('deleteShift{{ $shift->id }}').submit()" class="btn btn-danger">
+                                                Delete
+                                            </a>
+                                        </form>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
